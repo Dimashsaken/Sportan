@@ -3,7 +3,7 @@
 A comprehensive platform designed to help coaches, young athletes, and parents track training progress, stay organized, and identify athletic potential early through AI-powered insights.
 
 > **Note on Git History**: This repository contains only 2 commits as it was created by consolidating two separate repositories (frontend and backend) into a single centralized project. The original development history exists in the previous separate repositories for Sportan-front and Sportan-backend.
-for Sportan-front: https://github.com/Dimashsaken Sportan-front
+for Sportan-front: https://github.com/Dimashsaken/Sportan-front
 for Sportan-backend: https://github.com/l9kk/sportan-backend
 
 ## 🎯 Overview
