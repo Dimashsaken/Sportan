@@ -1,0 +1,47 @@
+services:
+  api:
+    image: ${IMAGE_NAME:-sportan-backend}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT:-8000}:8000"
+    expose:
+      - "8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  nginx:
+    image: nginx:1.25-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - api
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    profiles:
+      - tools
+
+  migrate:
+    image: ${IMAGE_NAME:-sportan-backend}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    command: alembic upgrade head
